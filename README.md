@@ -7,6 +7,6 @@
 ## 设置存储库 
 
 ```bash
-bundle install --path vendor/bundle
+bundle install
 bundle exec jekyll serve
 ```

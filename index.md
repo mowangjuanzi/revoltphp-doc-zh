@@ -9,9 +9,7 @@ Revolt 是用于 PHP 并发应用程序的健壮事件循环。通常 PHP
 应用程序大部分时间都在等待 I/O。虽然 PHP
 是单线程，[协作式多任务](https://zh.wikipedia.org/wiki/%E5%8D%8F%E4%BD%9C%E5%BC%8F%E5%A4%9A%E4%BB%BB%E5%8A%A1)用于通过使用等待时间允许并发做不同的事情。
 
-PHP's traditional synchronous execution flow is easy to understand. Doing one thing at a time.
-If you query a database, you send the query and wait for a response from the database server.
-Once you have the response, you can start doing the next thing.
+PHP 的传统同步执行流程很容易理解。一次只做一件事。如果查询数据库，则发送查询并等待数据库服务器的响应。一旦得到响应，就可以开始做下一件事了。
 
 Amp, ReactPHP, and other libraries have offered cooperative multitasking in PHP for a long time.
 However, their event-driven nature was incompatible to many existing interfaces and required a different thinking model.
