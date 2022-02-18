@@ -5,9 +5,9 @@ layout: base
 ---
 # Revolt 是什么？
 
-Revolt is a rock-solid event loop for concurrent PHP applications.
-The usual PHP application spends most of its time waiting for I/O.
-While PHP is single threaded, [cooperative multitasking](https://en.wikipedia.org/wiki/Cooperative_multitasking) can be used to allow for concurrency by using the waiting time to do different things.
+Revolt 是用于 PHP 并发应用程序的健壮事件循环。通常 PHP
+应用程序大部分时间都在等待 I/O。虽然 PHP
+是单线程，[协作式多任务](https://zh.wikipedia.org/wiki/%E5%8D%8F%E4%BD%9C%E5%BC%8F%E5%A4%9A%E4%BB%BB%E5%8A%A1)用于通过使用等待时间允许并发做不同的事情。
 
 PHP's traditional synchronous execution flow is easy to understand. Doing one thing at a time.
 If you query a database, you send the query and wait for a response from the database server.
