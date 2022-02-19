@@ -5,14 +5,14 @@ layout: base
 ---
 # 原理
 
-Every application making use of cooperative multitasking can only have one scheduler.
+每个使用协作式多任务的应用程序都只能有一个调度程序。
 It doesn't make sense to have two event loops running at the same time, as they would just have to schedule each other in a busy waiting manner, wasting CPU cycles.
 
-Revolt provides global access to the scheduler using methods on the `Revolt\EventLoop` class.
+Revolt 在 `Revolt\EventLoop` 上的方法提供了对调度程序的全局访问。
 On the first use of the class, it will automatically create the [best available driver](/extensions).
 `Revolt\EventLoop::setDriver()` can be used to set a custom driver.
 
-There's no way to reset the scheduler.
+没有办法重置调度程序。
 While this might seem useful for test isolation, it would break as soon as test frameworks start to make use of Revolt themselves.
 Test frameworks and test code need to share the same scheduler, as there can only be one.
 
