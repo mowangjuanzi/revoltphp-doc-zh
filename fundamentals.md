@@ -5,33 +5,32 @@ layout: base
 ---
 # 原理
 
-Every application making use of cooperative multitasking can only have one scheduler.
-It doesn't make sense to have two event loops running at the same time, as they would just have to schedule each other in a busy waiting manner, wasting CPU cycles.
+每个使用协作式多任务的应用程序都只能有一个调度程序。同时运行两个事件循环没有意义，因为它们需要以繁忙等待的方式相互调度，浪费
+CPU 周期。
 
-Revolt provides global access to the scheduler using methods on the `Revolt\EventLoop` class.
-On the first use of the class, it will automatically create the [best available driver](/extensions).
-`Revolt\EventLoop::setDriver()` can be used to set a custom driver.
+Revolt 在 `Revolt\EventLoop` 上的方法提供了对调度程序的全局访问。第一次使用该类时，会自动创建[最佳自定义驱动](/extensions)。`Revolt\EventLoop::setDriver()` 
+可用于设置定义驱动。
 
-There's no way to reset the scheduler.
+没有办法重置调度程序。
 While this might seem useful for test isolation, it would break as soon as test frameworks start to make use of Revolt themselves.
 Test frameworks and test code need to share the same scheduler, as there can only be one.
 
 Cooperative multitasking works by telling the scheduler which events we're interested in.
 The scheduler will invoke a callback once the event happened.
-Revolt supports the following events:
+Revolt 支持以下事件：
 
  - [**Defer**](/timers)
  
    {:.small-hint .mt-n2 .mb-1}
-   The callback is executed in the next iteration of the event loop. If there are defers scheduled, the event loop won't wait between iterations.
+   回调在事件循环的下一次迭代中执行。 If there are defers scheduled, the event loop won't wait between iterations.
  - [**Delay**](/timers)
  
    {:.small-hint .mt-n2 .mb-1} 
-   The callback is executed after the specified number of seconds. Fractions of a second may be expressed as floating point numbers.
+   回调在指定秒数后执行。 Fractions of a second may be expressed as floating point numbers.
  - [**Repeat**](/timers)
  
    {:.small-hint .mt-n2 .mb-1}
-   The callback is executed after the specified number of seconds, repeatedly. Fractions of a second may be expressed as floating point numbers.
+   回调重复在指定秒数后执行。 Fractions of a second may be expressed as floating point numbers.
  - [**Stream readable**](/streams)
  
    {:.small-hint .mt-n2 .mb-1}
@@ -46,10 +45,10 @@ Revolt supports the following events:
    The callback is executed when the process received a specific signal from the OS.
 
 We'll give up control to the scheduler until the events we're interested in happened.
-The scheduler runs a loop that does a few things in each iteration:
+调度程序每运行一个循环，则在迭代中执行一些操作：
 
- - Check for any deferred callbacks
- - Check for actionable timer / stream / signal events
+ - 检查任何延迟回调
+ - 检查可操作的计时器/流/信号事件
  - Wait for stream activity until the next timer callback expires (unless there are `defer` events to be executed)
 
 The event loop controls the program flow as long as it runs.
@@ -57,7 +56,7 @@ Once we tell the event loop to run it will maintain control until it is suspende
 
 ## 示例
 
-Consider this very simple example:
+思考一下这个非常简单的例子：
 
 ```php
 <?php
@@ -88,7 +87,7 @@ $suspension->suspend();
 print '++ Script end' . PHP_EOL;
 ```
 
-Upon execution of the above example you should see output like this:
+执行上述示例后，应该会看到以下输出：
 
 ```plain
 ++ Suspending to event loop...
@@ -170,19 +169,19 @@ In general, the performance characteristics of event callback reuse via `enable(
 
 #### 暂停回调
 
-A simple disable example:
+一个简单的禁用示例：
 
 ```php
 <?php
 
 use Revolt\EventLoop;
 
-// Register a callback we'll disable
+// 注册将禁用的回调
 $callbackIdToDisable = EventLoop::delay(1, function (): void {
     echo "I'll never execute in one second because: disable()\n";
 });
 
-// Register a callback to perform the disable() operation
+// 注册回调执行 disable() 操作
 EventLoop::delay(0.5, function () use ($callbackIdToDisable) {
     echo "Disabling callback: ", $callbackIdToDisable, "\n";
     EventLoop::disable($callbackIdToDisable);

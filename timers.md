@@ -7,7 +7,7 @@ layout: base
 
 The event loop exposes several ways to schedule timers. Let's look at some details for each function.
 
-## Deferred Callbacks
+## 延迟回调
 
 - `defer()` schedules a callback to execute in the next iteration of the event loop.
 - This method guarantees a clean call stack to avoid starvation of other events in the current iteration of the loop.
@@ -41,7 +41,7 @@ EventLoop::run();
 
 `function (string $callbackId)`
 
-## Delayed Callbacks
+## 延时回调
 
 - `delay()` schedules a callback to execute after a delay of `n` seconds
 - A `delay()` callback is also automatically garbage collected by the event loop after execution and applications should not
@@ -69,7 +69,7 @@ EventLoop::run();
 
 `function (string $callbackId)`
 
-## 定期回调
+## 周期回调
 
 - `repeat()` schedules a callback to repeatedly execute every `n` seconds.
 - Like all other event callbacks, `repeat()` timers may be disabled/re-enabled at any time.
